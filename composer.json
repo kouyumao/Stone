@@ -1,0 +1,21 @@
+{
+    "name": "nature/stone",
+    "type": "library",
+    "description": "Base library: stone",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shiny",
+            "email": "daijie@php.net",
+            "homepage": "http://www.meettea.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Stone\\": "src"
+        }
+    }
+}
