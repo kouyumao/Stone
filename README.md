@@ -1,0 +1,3 @@
+# Stone
+
+PHP simple classes
