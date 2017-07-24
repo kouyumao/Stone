@@ -1,6 +1,6 @@
 <?php
     namespace Stone;
-    class cURL
+    class Request
     {
         private $ch;
         function __construct()
