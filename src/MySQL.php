@@ -1,5 +1,6 @@
 <?php
     namespace Stone;
+    
     class MySQL
     {
         private $dsn;
@@ -11,7 +12,7 @@
         
         public $lastSQL='';
         
-        function __setup($configure=array())
+        function setup($configure=[])
         {
             $this->dsn = $configure['dsn'];
             $this->user = $configure['username'];
@@ -169,7 +170,7 @@
         
         function update($table, $parameters=[], $condition=[], $force=false)
         {
-            $table = $this->format_table_name($table);
+            $table = $this->formatTableName($table);
             $sql = "UPDATE $table SET ";
             $fields = [];
             $pdo_parameters = [];
@@ -201,7 +202,7 @@
         
         function insert($table, $parameters=[])
         {
-            $table = $this->format_table_name($table);
+            $table = $this->formatTableName($table);
             $sql = "INSERT INTO $table";
             $fields = [];
             $placeholder = [];
@@ -225,7 +226,7 @@
 	        return $this->sth->errorInfo();
         }
         
-        protected function format_table_name($table)
+        protected function formatTableName($table)
         {
             $parts = explode(".", $table, 2);
             

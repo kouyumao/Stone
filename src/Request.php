@@ -3,15 +3,13 @@
     class Request
     {
         private $ch;
+        
         function __construct()
         {
             $this->ch = curl_init();;
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         }
-        function __setup($cfg)
-        {
-            curl_setopt($this->ch, CURLOPT_TIMEOUT, isset($cfg['timeout']) ? $cfg['timeout'] : 10);
-        }
+        
         function processDataType($value, $type='txt')
         {
             switch($type){
@@ -31,21 +29,25 @@
                     return $value;
             }
         }
+        
         function errno()
         {
 	        return curl_errno($this->ch);
         }
+        
         function error()
         {
 	        return curl_error($this->ch);
         }
-        function getinfo($type)
+        
+        function getInfo($type)
         {
 	        $key = 'CURLINFO_'.strtoupper($type);
 	        $constant = constant($key);
 	        return curl_getinfo($this->ch, $constant);
         }
-        function setopt($key, $value=null)
+        
+        function setOpt($key, $value=null)
         {
 	        if(is_array($key) && is_null($value)) {
 		        curl_setopt_array($this->ch, $key);
@@ -54,18 +56,21 @@
 	        }
 	        return $this;
         }
+        
         function authorize($user, $password)
         {
             curl_setopt($this->ch, CURLOPT_USERPWD, $user.':'.$password);
 	        return $this;
         }
+        
         function get($url, $dataType='txt')
         {
             curl_setopt($this->ch, CURLOPT_URL, $url);
             $content = curl_exec($this->ch);
             return $this->processDataType($content, $dataType);
         }
-        protected function hasFile($params=[])
+        
+        function hasFile($params=[])
         {
             foreach($params as $param) {
                 if(is_object($param) && is_a($param, 'CURLFile')) {
@@ -74,6 +79,7 @@
             }
             return false;
         }
+        
         function post($url, $params=[], $dataType='txt')
         {
             curl_setopt($this->ch, CURLOPT_URL, $url);
