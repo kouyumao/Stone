@@ -9,15 +9,33 @@
         private $user;
         private $charset;
         private $password;
+        private $defaultConfiguration = [
+            'STONE_PREFIX'=>'',
+            'MYSQL_DSN'=>'mysql:dbname=#{MYSQL_DATABASE};host=#{MYSQL_HOST};port=#{MYSQL_HOST}',
+            'MYSQL_HOST'=>'127.0.0.1',
+            'MYSQL_USER'=>'root',
+            'MYSQL_DATABASE'=>'',
+            'MYSQL_PASSWORD'=>'',
+            'MYSQL_PORT'=>3306,
+            'MYSQL_CHARSET'=>'utf8mb4'
+        ];
         
         public $lastSQL='';
         
-        function setup($configure=[])
+        function __construct($userCfg=null)
         {
-            $this->dsn = $configure['dsn'];
-            $this->user = $configure['username'];
-            $this->password = $configure['password'];
-            $this->charset = $configure['charset'];
+            if(!empty($userCfg)) {
+                $this->setup($userCfg);
+            }
+        }
+        
+        function setup($userCfg=[])
+        {
+            $configure = new Configuration($this->defaultConfiguration, $userCfg);
+            $this->dsn = $configure->parseInline($configure->MYSQL_DSN);
+            $this->user = $configure->MYSQL_USER;
+            $this->password = $configure->MYSQL_PASSWORD;
+            $this->charset = $configure->MYSQL_CHARSET;
             $this->connect();
         }
         
