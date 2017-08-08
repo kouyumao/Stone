@@ -22,11 +22,9 @@
         
         public $lastSQL='';
         
-        function __construct($userCfg=null)
+        function __construct($userCfg=[])
         {
-            if(!empty($userCfg)) {
-                $this->setup($userCfg);
-            }
+            $this->setup($userCfg);
         }
         
         function setup($userCfg=[])
